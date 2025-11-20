@@ -159,7 +159,6 @@ $GPTOKEYB "xash3d.${DEVICE_ARCH}" &
 "$ENGINE" \
   -ref gles2 -fullscreen -console \
   -game cstrike \
-  +map de_dust2 +maxplayers 10 +sv_lan 1 \
   2>&1 | tee -a ./log.txt
 
 echo ""
