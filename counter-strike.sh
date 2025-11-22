@@ -44,15 +44,15 @@ USE_VALVE=""
 VALVE_MOUNTED=0
 
 # ---- Debug Log (overwrites every run) ----
-DEBUG_LOG="${CSPORTDIR}/launch-debug.log"
+SESSION_LOG="${CSPORTDIR}/session.log"
 mkdir -p "$CSPORTDIR" >/dev/null 2>&1
-echo "=== Counter-Strike Launcher Debug Log ===" > "$DEBUG_LOG"
-echo "Timestamp: $(date)" >> "$DEBUG_LOG"
-echo "" >> "$DEBUG_LOG"
+echo "=== Counter-Strike Launcher Session Log ===" > "$SESSION_LOG"
+echo "Timestamp: $(date)" >> "$SESSION_LOG"
+echo "" >> "$SESSION_LOG"
 
 # Redirect ALL stdout & stderr into debug log.
 # (TTY messages still appear via manual echo > /dev/tty0)
-exec >>"$DEBUG_LOG" 2>&1
+exec >>"$SESSION_LOG" 2>&1
 
 echo "[Launcher] Starting..."
 echo "[Paths]"
@@ -124,9 +124,6 @@ echo ""
 # ---- Move into port dir ----
 cd "$CSPORTDIR" || fail "Failed to cd into $CSPORTDIR"
 
-$ESUDO touch log.txt
-$ESUDO chmod 666 log.txt
-
 # ---- Cleanup on exit ----
 cleanup() {
   echo "[Cleanup] Running cleanup..."
@@ -151,6 +148,7 @@ export XASH3D_BASEDIR="$CSPORTDIR"
 
 export LD_LIBRARY_PATH="${LIBSDIR}:$LD_LIBRARY_PATH:/usr/lib32:${USE_VALVE}/dlls:${USE_VALVE}/cl_dlls:${CSTRIKEDIR}/dlls:${CSTRIKEDIR}/cl_dlls"
 
+
 echo "[Launch] Starting Xash3D engine..."
 echo ""
 
@@ -158,8 +156,8 @@ $GPTOKEYB "xash3d.${DEVICE_ARCH}" &
 
 "$ENGINE" \
   -ref gles2 -fullscreen -console \
-  -game cstrike \
-  2>&1 | tee -a ./log.txt
+  -game cstrike
 
+ENGINE_EXIT=$?
 echo ""
-echo "[Launcher] Engine exited."
+echo "[Launcher] Engine exited with code: ${ENGINE_EXIT}"
