@@ -23,7 +23,7 @@ If the Half-Life port is not installed, you can instead include your own `valve`
   - Or users may **provide their own `valve` folder** directly inside this package  
 - ✅ **PortMaster-compatible structure** (`Counter-Strike.sh` + game directory)  
 - ✅ **Requires only your own `cstrike` and `valve` folders** (no assets included)  
-- 🚧 **Planned:** integrated bot support (YaPB or similar)  
+- ✅ **Bot support (YaPB):** functional and playable 
 - 🚧 **Planned:** light quality-of-life configs (sensitivity, HUD scale, defaults)  
 
 ---
