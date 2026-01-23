@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# ==============================
+# User toggles
+# ==============================
+SHOW_CONSOLE=0   # 1 = launch with -console, 0 = no console
+# ==============================
+
 XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 
 # ---- PortMaster boilerplate ----
@@ -148,15 +154,26 @@ export XASH3D_BASEDIR="$CSPORTDIR"
 
 export LD_LIBRARY_PATH="${LIBSDIR}:$LD_LIBRARY_PATH:/usr/lib32:${USE_VALVE}/dlls:${USE_VALVE}/cl_dlls:${CSTRIKEDIR}/dlls:${CSTRIKEDIR}/cl_dlls"
 
+# ---- Build engine args (safer than string building) ----
+ENGINE_ARGS=(
+  -ref gles2
+  -fullscreen
+  -game cstrike
+)
+
+if [ "${SHOW_CONSOLE:-0}" -eq 1 ]; then
+  ENGINE_ARGS+=( -console )
+  echo "[Launch] SHOW_CONSOLE=1 (adding -console)"
+else
+  echo "[Launch] SHOW_CONSOLE=0 (no -console)"
+fi
 
 echo "[Launch] Starting Xash3D engine..."
 echo ""
 
 $GPTOKEYB "xash3d.${DEVICE_ARCH}" &
 
-"$ENGINE" \
-  -ref gles2 -fullscreen -console \
-  -game cstrike
+"$ENGINE" "${ENGINE_ARGS[@]}"
 
 ENGINE_EXIT=$?
 echo ""
